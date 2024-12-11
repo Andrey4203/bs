@@ -52,6 +52,7 @@ class Board:
         self.field = [["O"] * size for _ in range(size)]
         self.ships = []
         self.busy = []
+        self.shots = []
         self.count = 0
 
     def add_ship(self, ship):
@@ -80,9 +81,9 @@ class Board:
     def shot(self, dot):
         if self.out(dot):
             raise BoardOutException()
-        if dot in self.busy:
+        if dot in self.shots:
             raise BoardUsedException()
-        self.busy.append(dot)
+        self.shots.append(dot)
 
         for ship in self.ships:
             if ship.hit(dot):
@@ -141,7 +142,7 @@ class AI(Player):
     def ask(self):
         dot = Dot(random.randint(0, 5), random.randint(0, 5))
         print(f"Ход компьютера: {dot.x + 1} {dot.y + 1}")
-        return dotё
+        return dot
 
 
 class Game:
@@ -199,7 +200,6 @@ class Game:
     def start(self):
         self.greet()
         self.loop()
-
 
 game = Game()
 game.start()
